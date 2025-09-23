@@ -14,7 +14,35 @@ int medallas[ind];
 int registros = 0;
 
 
+void buscarAt( std::string nombreAt[], std::string paises[], std::string disciplina[],std::string genero[],const int medallas[], const int ind ){
+    std::string busqueda;
+    std::cout << "INgrese el nombre del atrleta: ";
+    //esto se usa para limpiar el bufer y ademas que se lea el nombre completo del artista y no solo la primer palabra
+    std::cin.ignore();
+    std::getline(std::cin, busqueda);
+    for (int i = 0; i < registros; i++)
+    {
+      if(nombreAt[i] == busqueda){
+         std::cout << "Nombre: " << nombreAt[i] << std::endl;
+         std::cout << "Pais: " << paises[i]<< std::endl;
+         std::cout << "Disciplina: " << disciplina[i] << std::endl;
+         std::cout << "Genero: " << genero[i] << std::endl;
+         std::cout << "Medallas: " << medallas[i] << std::endl;
+    }
+    
+    
+}{std::cout << "no estaba";}  }
 
+void encontrarMax( std::string nombreAt[],const int medallas[], const int ind){
+    int maxMed = medallas [0];
+    int max;
+    for ( int i = 0; i < registros; i++)
+    {if (medallas[i]>maxMed)
+       {maxMed=medallas[i];
+        max = i;}}
+    
+    std::cout<<"El atleta con mas medallas es "<< nombreAt[max] <<" con un total de "<<maxMed<<std::endl;
+}
 
 
 
@@ -34,6 +62,8 @@ int main(int argc, char* argv[]) {
     }
 
     std::string entrada;
+    std::getline(archivo, entrada); // lee y descarta la línea de encabezado
+
     while(std::getline(archivo, entrada) && registros < ind){
         std::stringstream ss(entrada);
         std::string campo;
@@ -52,9 +82,30 @@ int main(int argc, char* argv[]) {
 
         std::getline(ss, campo, ',');
         medallas[registros] = std::stoi(campo);
-
         registros ++;} archivo.close();
-        
+
+
+    
+    
+    
+    
+    int opcion = 0;
+    do {
+        std::cout << "\n Olimpiadas\n";
+        std::cout << "1. Salir\n";
+        std::cout << "2. Buscar atleta\n";
+        std::cout << "3. Atleta con mas medallas\n";
+        std::cout << "Selecciona una opcion: ";
+        std::cin >> opcion;
+
+    switch(opcion) {
+        case 1: break;
+        case 2: buscarAt(nombreAt, paises, disciplina, genero, medallas, registros); break;
+        case 3: encontrarMax(nombreAt, medallas, registros); break;
+        //case 4: medallasPorPais(paises, medallas, registros); break;
+        default: std::cout << "Opcion invalida\n";
+    }
+} while(opcion != 1);
 
     return 0;
 }
