@@ -28,6 +28,8 @@ void buscarAt( std::string nombreAt[], std::string paises[], std::string discipl
          std::cout << "Disciplina: " << disciplina[i] << std::endl;
          std::cout << "Genero: " << genero[i] << std::endl;
          std::cout << "Medallas: " << medallas[i] << std::endl;
+
+         return;
     }
     
     
@@ -44,7 +46,34 @@ void encontrarMax( std::string nombreAt[],const int medallas[], const int ind){
     std::cout<<"El atleta con mas medallas es "<< nombreAt[max] <<" con un total de "<<maxMed<<std::endl;
 }
 
-
+void medPais(std::string pais[], const int medallas[]) {
+    std::string pUnico[ind];
+    int medTot[ind]; 
+    int cont = 0; 
+    for (int i = 0; i < registros; i++) {
+        bool encontrado = false;
+        // Buscar si el país ya está en pUnico
+        for (int j = 0; j < cont; j++) {
+            if (pais[i] == pUnico[j]) {
+                medTot[j] += medallas[i]; 
+                encontrado = true;
+                break;
+            }
+        }
+        // Si no se encontró, agregarlo como nuevo
+        if (!encontrado) {
+            pUnico[cont] = pais[i];
+            medTot[cont] = medallas[i];
+            cont++;
+        }
+    }
+    // Mostrar resultados
+    std::cout << "\nMedallas por país:\n";
+    for (int i = 0; i < cont; i++) {
+        std::cout << "País: " << pUnico[i] 
+                  << " - Medallas: " << medTot[i] << std::endl;
+    }
+}
 
 int main(int argc, char* argv[]) {
     std::string nombCSV;
@@ -84,17 +113,13 @@ int main(int argc, char* argv[]) {
         medallas[registros] = std::stoi(campo);
         registros ++;} archivo.close();
 
-
-    
-    
-    
-    
     int opcion = 0;
     do {
         std::cout << "\n Olimpiadas\n";
         std::cout << "1. Salir\n";
         std::cout << "2. Buscar atleta\n";
         std::cout << "3. Atleta con mas medallas\n";
+        std::cout << "4. Medallas totales por pais\n";
         std::cout << "Selecciona una opcion: ";
         std::cin >> opcion;
 
@@ -102,7 +127,7 @@ int main(int argc, char* argv[]) {
         case 1: break;
         case 2: buscarAt(nombreAt, paises, disciplina, genero, medallas, registros); break;
         case 3: encontrarMax(nombreAt, medallas, registros); break;
-        //case 4: medallasPorPais(paises, medallas, registros); break;
+        case 4: medPais(paises, medallas); break;
         default: std::cout << "Opcion invalida\n";
     }
 } while(opcion != 1);
